@@ -19,21 +19,10 @@ export default [
       'unused-imports': unusedImports,
     },
     rules: {
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        {
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
-        },
-      ],
+      '@typescript-eslint/no-unused-vars': 'off',
+      'no-unused-vars': 'off',
       'unused-imports/no-unused-imports': 'error',
-      'unused-imports/no-unused-vars': [
-        'error',
-        {
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
-        },
-      ],
+      'unused-imports/no-unused-vars': ['off'],
       'no-console': 'warn',
       'prefer-const': 'error',
       'no-var': 'error',
