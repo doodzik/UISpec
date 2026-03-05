@@ -1,0 +1,21 @@
+{
+  "enabled": true,
+  "allowedTools": {
+    "Bash": {
+      "include": ["pnpm", "vitest", "eslint", "prettier", "tsc", "git", "ls", "cat", "node", "npm"],
+      "exclude": ["rm -rf", "dd", "mkfs", ":(){:|:&};:"]
+    },
+    "Glob": true,
+    "Grep": true,
+    "Read": true,
+    "Edit": true,
+    "Write": true,
+    "Task": true
+  },
+  "completion": {
+    "prompt": "Think silently about what code to write. Output ONLY code with no additional text."
+  },
+  "env": {
+    "NODE_ENV": "test"
+  }
+}
