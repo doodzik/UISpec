@@ -46,7 +46,7 @@ export const ValidationRules = {
 };
 
 interface PageLocator {
-  locator(selector: string): {
+  locator(_selector: string): {
     count(): Promise<number>;
     first(): Promise<ElementLocator>;
     all(): Promise<ElementLocator[]>;
@@ -55,7 +55,7 @@ interface PageLocator {
 
 interface ElementLocator {
   isVisible(): Promise<boolean>;
-  getAttribute(attr: string): Promise<string | null>;
+  getAttribute(_attr: string): Promise<string | null>;
 }
 
 export class SemanticValidator {

@@ -38,7 +38,7 @@ export const GeometryRules = {
 };
 
 interface PageLocator {
-  locator(selector: string): {
+  locator(_selector: string): {
     first(): Promise<{ boundingBox(): Promise<BoundingBox | null> }>;
   };
 }

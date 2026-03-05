@@ -60,12 +60,12 @@ export function overlayAnchor(attrs: {
 }
 
 type ScreenBuilder = {
-  routes(routes: string[]): ScreenBuilder;
-  viewports(viewports: Record<string, string>): ScreenBuilder;
-  mode(name: string, builder: (mode: ModeBuilder) => void): ScreenBuilder;
-  overlay(name: string, overlay: { id: string; route?: string; anchor: string }): ScreenBuilder;
-  flow(name: string, steps: FlowStep[]): ScreenBuilder;
-  invariant(invariant: {
+  routes(_routes: string[]): ScreenBuilder;
+  viewports(_viewports: Record<string, string>): ScreenBuilder;
+  mode(_name: string, _builder: (mode: ModeBuilder) => void): ScreenBuilder;
+  overlay(_name: string, _overlay: { id: string; route?: string; anchor: string }): ScreenBuilder;
+  flow(_name: string, _steps: FlowStep[]): ScreenBuilder;
+  invariant(_invariant: {
     id: string;
     description?: string;
     target: string;
@@ -74,19 +74,19 @@ type ScreenBuilder = {
 };
 
 type ModeBuilder = {
-  tree(nodes: Node[]): ModeBuilder;
+  tree(_nodes: Node[]): ModeBuilder;
 };
 
 interface ModeBuilderImpl {
-  tree(nodes: Node[]): ModeBuilderImpl;
+  tree(_nodes: Node[]): ModeBuilderImpl;
   getTree(): Node[];
 }
 
 function createModeBuilder(): ModeBuilderImpl {
   let tree: Node[] = [];
   return {
-    tree(nodes: Node[]) {
-      tree = nodes;
+    tree(_nodes: Node[]) {
+      tree = _nodes;
       return this;
     },
     getTree() {
@@ -95,7 +95,7 @@ function createModeBuilder(): ModeBuilderImpl {
   };
 }
 
-export function screen(id: string, builder: (s: ScreenBuilder) => void): Screen {
+export function screen(id: string, builder: (_s: ScreenBuilder) => void): Screen {
   const screenData: Partial<Screen> = {
     id,
     routes: [],
