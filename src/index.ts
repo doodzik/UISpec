@@ -36,6 +36,15 @@ export {
 } from './verify/harness/stability.js';
 
 export {
+  createRunner,
+  destroyRunner,
+  createPageLocator,
+  injectUIIds,
+  type RunnerOptions,
+  type ValidationContext,
+} from './verify/harness/runner.js';
+
+export {
   SemanticValidator,
   type SemanticRule,
   type SemanticRuleType,
