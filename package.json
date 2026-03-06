@@ -1,6 +1,6 @@
 {
-  "name": "uispec",
-  "version": "0.0.1",
+  "name": "@doodzik/uispec",
+  "version": "0.0.2",
   "description": "TypeScript library for defining UI intent as structured specifications verified against frontend applications",
   "type": "module",
   "main": "./dist/index.js",
@@ -12,7 +12,7 @@
     }
   },
   "bin": {
-    "uispec": "./dist/cli/index.js"
+    "uispec": "dist/cli/index.js"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
@@ -62,5 +62,17 @@
     "specification",
     "dsl"
   ],
-  "license": "AGPL-3.0"
+  "license": "AGPL-3.0",
+  "directories": {
+    "example": "examples"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/doodzik/UISpec.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/doodzik/UISpec/issues"
+  },
+  "homepage": "https://github.com/doodzik/UISpec#readme"
 }
