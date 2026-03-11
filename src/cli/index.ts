@@ -1,3 +1,4 @@
+import { tsImport } from 'tsx/esm/api';
 import { ConfigSchema } from '../schemas/config.schema.js';
 
 export interface CLIArgs {
@@ -69,10 +70,9 @@ export function validateConfig(config: unknown): ValidationResult {
   return { valid: false, errors };
 }
 
-export async function loadConfig(path: string): Promise<unknown | null> {
+export async function loadConfig(specifier: string): Promise<unknown | null> {
   try {
-    const dynamicImport = new Function('path', `return import(path)`);
-    const module = await dynamicImport(path);
+    const module = await tsImport(specifier, import.meta.url);
     return module.default || module;
   } catch {
     return null;

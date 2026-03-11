@@ -76,5 +76,13 @@ describe('CLI', () => {
       const config = await loadConfig('./non-existent.ts');
       expect(config).toBeNull();
     });
+
+    it('should load a TypeScript config file', async () => {
+      const fixturePath = new URL('./fixtures/sample.config.ts', import.meta.url).href;
+      const config = await loadConfig(fixturePath);
+      expect(config).not.toBeNull();
+      expect(config).toHaveProperty('appUrl', 'http://localhost:3000');
+      expect(config).toHaveProperty('screens');
+    });
   });
 });
