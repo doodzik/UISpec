@@ -52,7 +52,9 @@ console.log(catalogs.uiIds);
 
 ## Wireframe Visualization
 
-UISpec can generate an HTML wireframe from your specs so you can see what your UI structure looks like before writing any frontend code. The renderer understands common layout patterns — regions named `header` and `footer` span full width, while `sidebar` and `main` regions are placed side by side. See [`docs/wireframe-example.html`](docs/wireframe-example.html) for a live example you can open in your browser.
+UISpec can generate an HTML wireframe from your specs so you can see what your UI structure looks like before writing any frontend code. The renderer understands common layout patterns — regions named `header` and `footer` span full width, while `sidebar` and `main` regions are placed side by side.
+
+![UISpec Wireframe](docs/wireframe-example.png)
 
 Each node kind has a distinct color:
 - **Blue** — `region` (layout containers like header, sidebar, main, footer)
