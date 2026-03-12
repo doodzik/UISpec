@@ -57,7 +57,7 @@ jobs:
         run: pnpm test:coverage
 
       - name: Integration tests
-        run: npx vitest run --include 'integration/**/*.test.ts'
+        run: npx vitest run integration
 
   build:
     name: Build
