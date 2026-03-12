@@ -24,6 +24,7 @@
     "test:watch": "vitest",
     "test:coverage": "vitest --coverage",
     "check": "pnpm typecheck && pnpm lint && pnpm prettier && pnpm test",
+    "generate:wireframe": "npx tsx scripts/generate-wireframe-image.ts",
     "build": "tsup",
     "prepare": "husky install"
   },
