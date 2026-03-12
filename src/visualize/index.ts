@@ -20,6 +20,16 @@ function escapeHtml(str: string): string {
 
 const DEFAULT_COLOR = { bg: '#e8f4fd', border: '#2196F3' };
 
+const FULL_WIDTH_PATTERN = /^(header|footer|navbar|topbar|bottombar|banner|appbar)$/i;
+
+function isFullWidthRegion(node: Node): boolean {
+  return node.kind === 'region' && FULL_WIDTH_PATTERN.test(node.id);
+}
+
+function hasOnlyLeafChildren(node: Node): boolean {
+  return !!node.children?.length && node.children.every((c) => !c.children?.length);
+}
+
 function renderNode(node: Node, depth: number): string {
   const colors = KIND_COLORS[node.kind] ?? DEFAULT_COLOR;
   const semanticsHtml = node.semantics
@@ -31,10 +41,11 @@ function renderNode(node: Node, depth: number): string {
           : '',
       ]
         .filter(Boolean)
-        .join(' · ')}</span>`
+        .join(' &middot; ')}</span>`
     : '';
 
   const childrenHtml = node.children?.map((c) => renderNode(c, depth + 1)).join('') ?? '';
+  const useHorizontalChildren = hasOnlyLeafChildren(node);
 
   return `<div class="node" style="border-color:${colors.border};background:${colors.bg}">
   <div class="node-header">
@@ -42,8 +53,50 @@ function renderNode(node: Node, depth: number): string {
     <span class="kind" style="background:${colors.border}">${escapeHtml(node.kind)}</span>
     ${semanticsHtml}
   </div>
-  ${childrenHtml ? `<div class="node-children">${childrenHtml}</div>` : ''}
+  ${childrenHtml ? `<div class="node-children${useHorizontalChildren ? ' node-children--horizontal' : ''}">${childrenHtml}</div>` : ''}
 </div>`;
+}
+
+function renderTree(nodes: Node[]): string {
+  const fullWidthTop: Node[] = [];
+  const bodyNodes: Node[] = [];
+  const fullWidthBottom: Node[] = [];
+
+  let seenBody = false;
+  for (const node of nodes) {
+    if (isFullWidthRegion(node)) {
+      if (seenBody) {
+        fullWidthBottom.push(node);
+      } else {
+        fullWidthTop.push(node);
+      }
+    } else {
+      seenBody = true;
+      bodyNodes.push(node);
+    }
+  }
+
+  const hasLayout = fullWidthTop.length > 0 || fullWidthBottom.length > 0 || bodyNodes.length > 1;
+
+  if (!hasLayout) {
+    return nodes.map((n) => renderNode(n, 0)).join('');
+  }
+
+  let html = '';
+
+  for (const node of fullWidthTop) {
+    html += `<div class="layout-row layout-row--full">${renderNode(node, 0)}</div>`;
+  }
+
+  if (bodyNodes.length > 0) {
+    html += `<div class="layout-row layout-row--body">${bodyNodes.map((n) => renderNode(n, 0)).join('')}</div>`;
+  }
+
+  for (const node of fullWidthBottom) {
+    html += `<div class="layout-row layout-row--full">${renderNode(node, 0)}</div>`;
+  }
+
+  return html;
 }
 
 function renderOverlays(overlays: CompiledScreen['overlays']): string {
@@ -77,7 +130,7 @@ function renderFlows(flows: CompiledScreen['flows']): string {
       <ol>${steps
         .map((step) => {
           const parts = [escapeHtml(step.action)];
-          if (step.target) parts.push(`→ ${escapeHtml(step.target)}`);
+          if (step.target) parts.push(`&rarr; ${escapeHtml(step.target)}`);
           if (step.value) parts.push(`"${escapeHtml(step.value)}"`);
           if (step.route) parts.push(`route: ${escapeHtml(step.route)}`);
           return `<li>${parts.join(' ')}</li>`;
@@ -99,7 +152,7 @@ function renderScreen(compiled: CompiledScreen): string {
       ([modeName, mode]) =>
         `<div class="mode">
       <h3>${escapeHtml(modeName)}</h3>
-      <div class="tree">${mode.tree.map((n) => renderNode(n, 0)).join('')}</div>
+      <div class="tree">${renderTree(mode.tree)}</div>
     </div>`
     )
     .join('');
@@ -133,12 +186,20 @@ export function generateHtml(screens: CompiledScreen[]): string {
   .modes { display: flex; flex-wrap: wrap; gap: 1.5rem; }
   .mode { flex: 1; min-width: 300px; }
   .mode h3 { font-size: 1.1rem; margin-bottom: 0.75rem; padding-bottom: 0.25rem; border-bottom: 2px solid #ddd; }
+  .tree { display: flex; flex-direction: column; gap: 0.5rem; }
+  .layout-row--full { }
+  .layout-row--full > .node { margin-bottom: 0; }
+  .layout-row--body { display: flex; gap: 0.5rem; align-items: stretch; }
+  .layout-row--body > .node { flex: 1; margin-bottom: 0; }
+  .layout-row--body > .node:first-child:not(:only-child) { flex: 0 0 220px; max-width: 260px; }
   .node { border: 2px solid; border-radius: 6px; padding: 0.5rem; margin-bottom: 0.5rem; }
   .node-header { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.25rem; }
   .node-header strong { font-size: 0.9rem; }
   .kind { color: #fff; padding: 1px 6px; border-radius: 3px; font-size: 0.7rem; text-transform: uppercase; }
   .semantics { font-size: 0.75rem; color: #666; font-style: italic; }
   .node-children { margin-left: 0.75rem; padding-left: 0.75rem; border-left: 2px dashed #ccc; }
+  .node-children--horizontal { display: flex; flex-wrap: wrap; gap: 0.5rem; border-left: none; margin-left: 0; padding-left: 0; }
+  .node-children--horizontal > .node { flex: 1; min-width: 120px; margin-bottom: 0; }
   .overlays-section, .flows-section { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee; }
   .overlays-section h4, .flows-section h4 { margin-bottom: 0.5rem; color: #666; }
   .overlay, .flow { background: #fafafa; border: 1px solid #e0e0e0; border-radius: 4px; padding: 0.5rem; margin-bottom: 0.5rem; }

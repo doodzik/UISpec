@@ -183,5 +183,83 @@ describe('Visualize', () => {
       expect(html).toContain('click');
       expect(html).toContain('loginBtn');
     });
+
+    it('should use layout rows for header/sidebar/main/footer pattern', () => {
+      const spec = screen('app', (s) =>
+        s
+          .routes(['/'])
+          .viewports({ desktop: 'desktop' })
+          .mode('desktop', (m) =>
+            m.tree([
+              region({ id: 'header' }),
+              region({ id: 'sidebar' }),
+              region({ id: 'main' }),
+              region({ id: 'footer' }),
+            ])
+          )
+      );
+
+      const html = generateHtml([compile(spec)]);
+      expect(html).toContain('layout-row--full');
+      expect(html).toContain('layout-row--body');
+    });
+
+    it('should place sidebar and main side by side in body row', () => {
+      const spec = screen('app', (s) =>
+        s
+          .routes(['/'])
+          .viewports({ desktop: 'desktop' })
+          .mode('desktop', (m) =>
+            m.tree([region({ id: 'header' }), region({ id: 'sidebar' }), region({ id: 'main' })])
+          )
+      );
+
+      const html = generateHtml([compile(spec)]);
+      const treeStart = html.indexOf('<div class="tree">');
+      const treeHtml = html.slice(treeStart);
+      const bodyIdx = treeHtml.indexOf('layout-row--body');
+      expect(bodyIdx).toBeGreaterThan(-1);
+      const bodySection = treeHtml.slice(bodyIdx, bodyIdx + 2000);
+      expect(bodySection).toContain('sidebar');
+      expect(bodySection).toContain('main');
+    });
+
+    it('should use horizontal layout for leaf-only children', () => {
+      const spec = screen('app', (s) =>
+        s
+          .routes(['/'])
+          .viewports({ desktop: 'desktop' })
+          .mode('desktop', (m) =>
+            m.tree([
+              region({
+                id: 'header',
+                children: [
+                  component({ id: 'logo' }),
+                  component({ id: 'nav' }),
+                  component({ id: 'actions' }),
+                ],
+              }),
+            ])
+          )
+      );
+
+      const html = generateHtml([compile(spec)]);
+      expect(html).toContain('node-children--horizontal');
+    });
+
+    it('should not use layout rows in tree when no header/footer pattern exists', () => {
+      const spec = screen('simple', (s) =>
+        s
+          .routes(['/'])
+          .viewports({ desktop: 'desktop' })
+          .mode('desktop', (m) => m.tree([region({ id: 'content' })]))
+      );
+
+      const html = generateHtml([compile(spec)]);
+      const treeStart = html.indexOf('<div class="tree">');
+      const treeSection = html.slice(treeStart, treeStart + 500);
+      expect(treeSection).not.toContain('layout-row--body');
+      expect(treeSection).not.toContain('layout-row--full');
+    });
   });
 });

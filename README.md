@@ -52,9 +52,7 @@ console.log(catalogs.uiIds);
 
 ## Wireframe Visualization
 
-UISpec can generate an HTML wireframe from your specs so you can see what your UI structure looks like before writing any frontend code. Here's what the dashboard spec above renders as:
-
-![UISpec Wireframe](docs/wireframe-example.png)
+UISpec can generate an HTML wireframe from your specs so you can see what your UI structure looks like before writing any frontend code. The renderer understands common layout patterns — regions named `header` and `footer` span full width, while `sidebar` and `main` regions are placed side by side. See [`docs/wireframe-example.html`](docs/wireframe-example.html) for a live example you can open in your browser.
 
 Each node kind has a distinct color:
 - **Blue** — `region` (layout containers like header, sidebar, main, footer)
@@ -83,13 +81,11 @@ Or via CLI:
 uispec visualize ./specs/dashboard.ts -o wireframe.html
 ```
 
-To regenerate the docs wireframe image (requires Playwright browsers):
+To regenerate the docs wireframe screenshot (requires Playwright browsers):
 
 ```bash
 pnpm generate:wireframe
 ```
-
-> You can also open `docs/wireframe-example.html` directly in your browser to see the interactive wireframe without needing Playwright.
 
 ## Features
 
