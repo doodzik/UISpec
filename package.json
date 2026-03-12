@@ -22,8 +22,9 @@
     "prettier:fix": "prettier --write src",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest --coverage",
+    "test:coverage": "vitest run --coverage --exclude 'integration/**/*.test.ts'",
     "check": "pnpm typecheck && pnpm lint && pnpm prettier && pnpm test",
+    "generate:wireframe": "npx tsx scripts/generate-wireframe-image.ts",
     "build": "tsup",
     "prepare": "husky install"
   },

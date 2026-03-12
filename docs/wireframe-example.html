@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UISpec Wireframe</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f5f5f5; color: #333; padding: 2rem; }
+  h1 { margin-bottom: 1.5rem; }
+  .screen { background: #fff; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  .screen h2 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+  .routes { margin-bottom: 1rem; }
+  .routes code { background: #eee; padding: 2px 8px; border-radius: 4px; margin-right: 0.5rem; font-size: 0.85rem; }
+  .modes { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+  .mode { flex: 1; min-width: 300px; }
+  .mode h3 { font-size: 1.1rem; margin-bottom: 0.75rem; padding-bottom: 0.25rem; border-bottom: 2px solid #ddd; }
+  .tree { display: flex; flex-direction: column; gap: 0.5rem; }
+  .layout-row--full { }
+  .layout-row--full > .node { margin-bottom: 0; }
+  .layout-row--body { display: flex; gap: 0.5rem; align-items: stretch; }
+  .layout-row--body > .node { flex: 1; margin-bottom: 0; }
+  .layout-row--body > .node:first-child:not(:only-child) { flex: 0 0 220px; max-width: 260px; }
+  .node { border: 2px solid; border-radius: 6px; padding: 0.5rem; margin-bottom: 0.5rem; }
+  .node-header { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.25rem; }
+  .node-header strong { font-size: 0.9rem; }
+  .kind { color: #fff; padding: 1px 6px; border-radius: 3px; font-size: 0.7rem; text-transform: uppercase; }
+  .semantics { font-size: 0.75rem; color: #666; font-style: italic; }
+  .node-children { margin-left: 0.75rem; padding-left: 0.75rem; border-left: 2px dashed #ccc; }
+  .node-children--horizontal { display: flex; flex-wrap: wrap; gap: 0.5rem; border-left: none; margin-left: 0; padding-left: 0; }
+  .node-children--horizontal > .node { flex: 1; min-width: 120px; margin-bottom: 0; }
+  .overlays-section, .flows-section { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee; }
+  .overlays-section h4, .flows-section h4 { margin-bottom: 0.5rem; color: #666; }
+  .overlay, .flow { background: #fafafa; border: 1px solid #e0e0e0; border-radius: 4px; padding: 0.5rem; margin-bottom: 0.5rem; }
+  .overlay-detail { font-size: 0.8rem; color: #666; margin-left: 0.5rem; }
+  .flow ol { margin-left: 1.5rem; margin-top: 0.25rem; font-size: 0.85rem; }
+  .legend { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; }
+  .legend-swatch { width: 16px; height: 16px; border: 2px solid; border-radius: 3px; }
+</style>
+</head>
+<body>
+<h1>UISpec Wireframe</h1>
+<div class="legend">
+  <div class="legend-item"><div class="legend-swatch" style="background:#e8f4fd;border-color:#2196F3"></div>region</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#e8f5e9;border-color:#4CAF50"></div>component</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#fff3e0;border-color:#FF9800"></div>control</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#f3e5f5;border-color:#9C27B0"></div>container</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#fce4ec;border-color:#E91E63"></div>collection</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#e0f2f1;border-color:#009688"></div>overlayAnchor</div>
+</div>
+<section class="screen">
+    <h2>dashboard</h2>
+    <div class="routes"><code>/dashboard</code> <code>/dash</code></div>
+    <div class="modes"><div class="mode">
+      <h3>desktop</h3>
+      <div class="tree"><div class="layout-row layout-row--full"><div class="node" style="border-color:#2196F3;background:#e8f4fd">
+  <div class="node-header">
+    <strong>header</strong>
+    <span class="kind" style="background:#2196F3">region</span>
+    
+  </div>
+  <div class="node-children node-children--horizontal"><div class="node" style="border-color:#4CAF50;background:#e8f5e9">
+  <div class="node-header">
+    <strong>logo</strong>
+    <span class="kind" style="background:#4CAF50">component</span>
+    <span class="semantics">role: img &middot; "Company Logo"</span>
+  </div>
+  
+</div><div class="node" style="border-color:#FF9800;background:#fff3e0">
+  <div class="node-header">
+    <strong>searchInput</strong>
+    <span class="kind" style="background:#FF9800">control</span>
+    <span class="semantics">role: searchbox &middot; placeholder: "Search..."</span>
+  </div>
+  
+</div><div class="node" style="border-color:#4CAF50;background:#e8f5e9">
+  <div class="node-header">
+    <strong>notifications</strong>
+    <span class="kind" style="background:#4CAF50">component</span>
+    <span class="semantics">role: button &middot; "Notifications"</span>
+  </div>
+  
+</div><div class="node" style="border-color:#4CAF50;background:#e8f5e9">
+  <div class="node-header">
+    <strong>userMenu</strong>
+    <span class="kind" style="background:#4CAF50">component</span>
+    <span class="semantics">role: button &middot; "User Menu"</span>
+  </div>
+  
+</div></div>
+</div></div><div class="layout-row layout-row--body"><div class="node" style="border-color:#2196F3;background:#e8f4fd">
+  <div class="node-header">
+    <strong>sidebar</strong>
+    <span class="kind" style="background:#2196F3">region</span>
+    
+  </div>
+  <div class="node-children node-children--horizontal"><div class="node" style="border-color:#4CAF50;background:#e8f5e9">
+  <div class="node-header">
+    <strong>navHome</strong>
+    <span class="kind" style="background:#4CAF50">component</span>
+    <span class="semantics">role: link &middot; "Home"</span>
+  </div>
+  
+</div><div class="node" style="border-color:#4CAF50;background:#e8f5e9">
+  <div class="node-header">
+    <strong>navProjects</strong>
+    <span class="kind" style="background:#4CAF50">component</span>
+    <span class="semantics">role: link &middot; "Projects"</span>
+  </div>
+  
+</div><div class="node" style="border-color:#4CAF50;background:#e8f5e9">
+  <div class="node-header">
+    <strong>navTasks</strong>
+    <span class="kind" style="background:#4CAF50">component</span>
+    <span class="semantics">role: link &middot; "Tasks"</span>
+  </div>
+  
+</div><div class="node" style="border-color:#4CAF50;background:#e8f5e9">
+  <div class="node-header">
+    <strong>navSettings</strong>
+    <span class="kind" style="background:#4CAF50">component</span>
+    <span class="semantics">role: link &middot; "Settings"</span>
+  </div>
+  
+</div></div>
+</div><div class="node" style="border-color:#2196F3;background:#e8f4fd">
+  <div class="node-header">
+    <strong>main</strong>
+    <span class="kind" style="background:#2196F3">region</span>
+    
+  </div>
+  <div class="node-children"><div class="node" style="border-color:#2196F3;background:#e8f4fd">
+  <div class="node-header">
+    <strong>stats</strong>
+    <span class="kind" style="background:#2196F3">region</span>
+    
+  </div>
+  <div class="node-children node-children--horizontal"><div class="node" style="border-color:#9C27B0;background:#f3e5f5">
+  <div class="node-header">
+    <strong>statCard1</strong>
+    <span class="kind" style="background:#9C27B0">container</span>
+    <span class="semantics">role: article</span>
+  </div>
+  
+</div><div class="node" style="border-color:#9C27B0;background:#f3e5f5">
+  <div class="node-header">
+    <strong>statCard2</strong>
+    <span class="kind" style="background:#9C27B0">container</span>
+    <span class="semantics">role: article</span>
+  </div>
+  
+</div><div class="node" style="border-color:#9C27B0;background:#f3e5f5">
+  <div class="node-header">
+    <strong>statCard3</strong>
+    <span class="kind" style="background:#9C27B0">container</span>
+    <span class="semantics">role: article</span>
+  </div>
+  
+</div></div>
+</div><div class="node" style="border-color:#2196F3;background:#e8f4fd">
+  <div class="node-header">
+    <strong>recentActivity</strong>
+    <span class="kind" style="background:#2196F3">region</span>
+    <span class="semantics">role: feed</span>
+  </div>
+  
+</div></div>
+</div></div><div class="layout-row layout-row--full"><div class="node" style="border-color:#2196F3;background:#e8f4fd">
+  <div class="node-header">
+    <strong>footer</strong>
+    <span class="kind" style="background:#2196F3">region</span>
+    
+  </div>
+  
+</div></div></div>
+    </div><div class="mode">
+      <h3>tablet</h3>
+      <div class="tree"><div class="layout-row layout-row--full"><div class="node" style="border-color:#2196F3;background:#e8f4fd">
+  <div class="node-header">
+    <strong>header</strong>
+    <span class="kind" style="background:#2196F3">region</span>
+    
+  </div>
+  
+</div></div><div class="layout-row layout-row--body"><div class="node" style="border-color:#2196F3;background:#e8f4fd">
+  <div class="node-header">
+    <strong>main</strong>
+    <span class="kind" style="background:#2196F3">region</span>
+    
+  </div>
+  <div class="node-children node-children--horizontal"><div class="node" style="border-color:#2196F3;background:#e8f4fd">
+  <div class="node-header">
+    <strong>content</strong>
+    <span class="kind" style="background:#2196F3">region</span>
+    
+  </div>
+  
+</div></div>
+</div></div><div class="layout-row layout-row--full"><div class="node" style="border-color:#2196F3;background:#e8f4fd">
+  <div class="node-header">
+    <strong>footer</strong>
+    <span class="kind" style="background:#2196F3">region</span>
+    
+  </div>
+  
+</div></div></div>
+    </div><div class="mode">
+      <h3>mobile</h3>
+      <div class="tree"><div class="layout-row layout-row--full"><div class="node" style="border-color:#2196F3;background:#e8f4fd">
+  <div class="node-header">
+    <strong>header</strong>
+    <span class="kind" style="background:#2196F3">region</span>
+    
+  </div>
+  
+</div></div><div class="layout-row layout-row--body"><div class="node" style="border-color:#2196F3;background:#e8f4fd">
+  <div class="node-header">
+    <strong>main</strong>
+    <span class="kind" style="background:#2196F3">region</span>
+    
+  </div>
+  
+</div></div></div>
+    </div></div>
+    <div class="overlays-section">
+    <h4>Overlays</h4>
+    <div class="overlay">
+      <strong>settingsModal</strong>
+      <span class="overlay-detail">anchor: main</span>
+      <span class="overlay-detail">route: /dashboard/settings</span>
+    </div><div class="overlay">
+      <strong>userMenuDropdown</strong>
+      <span class="overlay-detail">anchor: userMenu</span>
+      
+    </div>
+  </div>
+    <div class="flows-section">
+    <h4>Flows</h4>
+    <div class="flow">
+      <strong>openSettings</strong>
+      <ol><li>click &rarr; navSettings</li><li>expect route: /dashboard/settings</li></ol>
+    </div><div class="flow">
+      <strong>search</strong>
+      <ol><li>click &rarr; searchInput</li><li>fill &rarr; searchInput "test query"</li></ol>
+    </div>
+  </div>
+  </section>
+<section class="screen">
+    <h2>config</h2>
+    <div class="routes"><code>/config</code> <code>/settings</code></div>
+    <div class="modes"><div class="mode">
+      <h3>desktop</h3>
+      <div class="tree"><div class="layout-row layout-row--body"><div class="node" style="border-color:#2196F3;background:#e8f4fd">
+  <div class="node-header">
+    <strong>sidebar</strong>
+    <span class="kind" style="background:#2196F3">region</span>
+    
+  </div>
+  <div class="node-children node-children--horizontal"><div class="node" style="border-color:#4CAF50;background:#e8f5e9">
+  <div class="node-header">
+    <strong>profileTab</strong>
+    <span class="kind" style="background:#4CAF50">component</span>
+    <span class="semantics">role: tab &middot; "Profile"</span>
+  </div>
+  
+</div><div class="node" style="border-color:#4CAF50;background:#e8f5e9">
+  <div class="node-header">
+    <strong>securityTab</strong>
+    <span class="kind" style="background:#4CAF50">component</span>
+    <span class="semantics">role: tab &middot; "Security"</span>
+  </div>
+  
+</div><div class="node" style="border-color:#4CAF50;background:#e8f5e9">
+  <div class="node-header">
+    <strong>notificationsTab</strong>
+    <span class="kind" style="background:#4CAF50">component</span>
+    <span class="semantics">role: tab &middot; "Notifications"</span>
+  </div>
+  
+</div></div>
+</div><div class="node" style="border-color:#2196F3;background:#e8f4fd">
+  <div class="node-header">
+    <strong>content</strong>
+    <span class="kind" style="background:#2196F3">region</span>
+    
+  </div>
+  <div class="node-children node-children--horizontal"><div class="node" style="border-color:#4CAF50;background:#e8f5e9">
+  <div class="node-header">
+    <strong>configForm</strong>
+    <span class="kind" style="background:#4CAF50">component</span>
+    
+  </div>
+  
+</div></div>
+</div></div></div>
+    </div></div>
+    
+    
+  </section>
+</body>
+</html>

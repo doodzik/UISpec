@@ -50,9 +50,49 @@ console.log(catalogs.uiIds);
 // ['dashboard/header', 'dashboard/logo', 'dashboard/search', ...]
 ```
 
+## Wireframe Visualization
+
+UISpec can generate an HTML wireframe from your specs so you can see what your UI structure looks like before writing any frontend code. The renderer understands common layout patterns — regions named `header` and `footer` span full width, while `sidebar` and `main` regions are placed side by side.
+
+![UISpec Wireframe](docs/wireframe-example.png)
+
+Each node kind has a distinct color:
+- **Blue** — `region` (layout containers like header, sidebar, main, footer)
+- **Green** — `component` (UI components like logo, buttons, nav links)
+- **Orange** — `control` (input controls like searchbox, text fields)
+- **Purple** — `container` (wrapper elements like stat cards)
+- **Pink** — `collection` (lists and grids)
+- **Teal** — `overlayAnchor` (modal/drawer anchor points)
+
+Semantic annotations (roles, labels, placeholders) appear as italic text next to each node. Multiple modes (desktop, tablet, mobile) are shown side by side so you can see how the layout adapts. Overlays and flows are listed below the tree.
+
+### Generate a wireframe
+
+```typescript
+import { compile, generateHtml } from '@doodzik/uispec';
+import { writeFileSync } from 'fs';
+
+const html = generateHtml([compile(mySpec)]);
+writeFileSync('wireframe.html', html);
+// Open wireframe.html in your browser
+```
+
+Or via CLI:
+
+```bash
+uispec visualize ./specs/dashboard.ts -o wireframe.html
+```
+
+To regenerate the docs wireframe screenshot (requires Playwright browsers):
+
+```bash
+pnpm generate:wireframe
+```
+
 ## Features
 
 - **DSL Builder**: Chainable API for defining UI specifications
+- **Wireframe Visualizer**: Generate HTML wireframes from specs to preview your UI structure
 - **Zod Validation**: Runtime validation of specifications
 - **ID Catalog Generation**: Auto-generated UI ID catalogs for refactor safety
 - **Semantic Validation**: Element existence, visibility, accessibility
@@ -67,6 +107,9 @@ uispec compile ./spec.ts
 
 # Verify UI against specification
 uispec verify ./uispec.config.ts
+
+# Generate HTML wireframe from specs
+uispec visualize ./spec.ts -o wireframe.html
 
 # Initialize UISpec in current directory
 uispec init

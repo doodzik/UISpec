@@ -6,6 +6,7 @@ export interface CLIArgs {
   config?: string;
   output?: string;
   watch?: boolean;
+  specFiles?: string[];
 }
 
 export function parseArgs(argv: string[]): CLIArgs {
@@ -37,6 +38,19 @@ export function parseArgs(argv: string[]): CLIArgs {
         command: 'verify',
         config: configValue || positionalArg,
         watch: args.includes('-w') || args.includes('--watch'),
+      };
+    }
+
+    case 'visualize': {
+      const outputFlagIndex = args.findIndex((a) => a === '-o' || a === '--output');
+      const outputValue = outputFlagIndex >= 0 ? args[outputFlagIndex + 1] : undefined;
+      const specFiles = args
+        .slice(1)
+        .filter((a) => !a.startsWith('-') && args.indexOf(a) !== outputFlagIndex + 1);
+      return {
+        command: 'visualize',
+        output: outputValue,
+        specFiles: specFiles.length > 0 ? specFiles : undefined,
       };
     }
 
@@ -104,6 +118,17 @@ export async function run(argv: string[]): Promise<void> {
       log('Initializing UISpec in current directory...');
       break;
 
+    case 'visualize': {
+      if (!args.specFiles || args.specFiles.length === 0) {
+        error('Error: At least one spec file required');
+        log('Usage: uispec visualize <spec-files...> [-o, --output <path>]');
+        return;
+      }
+      const outputPath = args.output || 'uispec-wireframe.html';
+      log(`Generating wireframe from ${args.specFiles.join(', ')} → ${outputPath}`);
+      break;
+    }
+
     case 'help':
     default:
       log('UISpec - UI Specification Validation Tool');
@@ -111,12 +136,13 @@ export async function run(argv: string[]): Promise<void> {
       log('Usage: uispec <command>');
       log('');
       log('Commands:');
-      log('  compile <input>    Compile UISpec DSL to canonical JSON');
-      log('  verify             Verify UI against specification');
-      log('  init               Initialize UISpec in current directory');
+      log('  compile <input>        Compile UISpec DSL to canonical JSON');
+      log('  verify                 Verify UI against specification');
+      log('  visualize <specs...>   Generate HTML wireframe from specs');
+      log('  init                   Initialize UISpec in current directory');
       log('');
       log('Options:');
-      log('  -h, --help         Show this help message');
-      log('  -v, --version      Show version number');
+      log('  -h, --help             Show this help message');
+      log('  -v, --version          Show version number');
   }
 }
