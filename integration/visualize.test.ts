@@ -88,10 +88,10 @@ describe('Visualize E2E', () => {
 
   test('should render node boxes with correct kind labels', async () => {
     const kinds = await page.$$eval('.kind', (els) => els.map((el) => el.textContent));
-    expect(kinds).toContain('REGION');
-    expect(kinds).toContain('COMPONENT');
-    expect(kinds).toContain('CONTROL');
-    expect(kinds).toContain('CONTAINER');
+    expect(kinds).toContain('region');
+    expect(kinds).toContain('component');
+    expect(kinds).toContain('control');
+    expect(kinds).toContain('container');
   });
 
   test('should render semantic annotations', async () => {
@@ -128,6 +128,7 @@ describe('Visualize E2E', () => {
   });
 
   test('should match reference screenshot', async () => {
+    fs.mkdirSync(SNAPSHOT_DIR, { recursive: true });
     const screenshotPath = path.join(SNAPSHOT_DIR, 'wireframe.actual.png');
     const referencePath = path.join(SNAPSHOT_DIR, 'wireframe.reference.png');
 
