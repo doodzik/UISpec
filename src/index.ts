@@ -73,3 +73,5 @@ export {
   type CLIArgs,
   type ValidationResult,
 } from './cli/index.js';
+
+export { generateHtml } from './visualize/index.js';

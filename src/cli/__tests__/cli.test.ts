@@ -20,6 +20,25 @@ describe('CLI', () => {
       expect(args.command).toBe('init');
     });
 
+    it('should parse visualize command with spec files', () => {
+      const args = parseArgs(['node', 'uispec', 'visualize', './spec1.ts', './spec2.ts']);
+      expect(args.command).toBe('visualize');
+      expect(args.specFiles).toEqual(['./spec1.ts', './spec2.ts']);
+    });
+
+    it('should parse visualize command with output flag', () => {
+      const args = parseArgs(['node', 'uispec', 'visualize', './spec.ts', '-o', 'output.html']);
+      expect(args.command).toBe('visualize');
+      expect(args.output).toBe('output.html');
+      expect(args.specFiles).toEqual(['./spec.ts']);
+    });
+
+    it('should parse visualize command with no files', () => {
+      const args = parseArgs(['node', 'uispec', 'visualize']);
+      expect(args.command).toBe('visualize');
+      expect(args.specFiles).toBeUndefined();
+    });
+
     it('should default to help for unknown commands', () => {
       const args = parseArgs(['node', 'uispec', 'unknown']);
       expect(args.command).toBe('help');
