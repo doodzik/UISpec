@@ -29,8 +29,20 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
       - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm exec playwright install --with-deps chromium
+
+      - name: Install Playwright system deps
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: pnpm exec playwright install-deps chromium
 
       - name: TypeScript type check
         run: pnpm typecheck
@@ -41,11 +53,11 @@ jobs:
       - name: Prettier
         run: pnpm prettier
 
-      - name: Tests
-        run: pnpm test
-
-      - name: Tests with coverage
+      - name: Unit tests with coverage
         run: pnpm test:coverage
+
+      - name: Integration tests
+        run: npx vitest run --include 'integration/**/*.test.ts'
 
   build:
     name: Build
